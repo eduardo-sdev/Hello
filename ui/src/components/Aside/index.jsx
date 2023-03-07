@@ -84,7 +84,7 @@ export function Aside() {
                         />
                     </div>
                     <span
-                        className={`text-[24px] flex flex-nowrap
+                        className={`text-[24px] font-bold
                             ${sidebarActive ? "opacity-0 hidden" : "opacity-100 ml-10"}`
                         }
                     >
@@ -128,7 +128,7 @@ export function Aside() {
                     {sidebarActive
                         ?
                         <span
-                            className={`tooltip top-5 z-1 bg-[#324054] shadow py-1 px-3 rounded text-[12px] text-white ease-in-out duration-300 opacity-0 absolute group-hover:opacity-100 -right-20`}
+                            className={`tooltip z-1 bg-[#324054] shadow py-1 px-3 rounded text-[12px] text-white ease-in-out duration-300 opacity-0 absolute top-5 group-hover:top-3 group-hover:opacity-100 left-14`}
                         >
                             {item.title}
                         </span>
@@ -159,7 +159,7 @@ export function Aside() {
                     {sidebarActive
                         ?
                         <span
-                            className={`tooltip top-5 z-1 bg-[#324054] shadow py-1 px-3 rounded text-[12px] text-white ease-in-out duration-300 opacity-0 absolute group-hover:opacity-100 left-20`}
+                            className={`tooltip z-1 bg-[#324054] shadow py-1 px-3 rounded text-[12px] text-white ease-in-out duration-300 opacity-0 absolute top-5 group-hover:top-3 group-hover:opacity-100 left-14`}
                         >
                             {item.title}
                         </span>
