@@ -3,7 +3,7 @@ import { Aside } from "./components/Aside"
 
 export function App() {
     return <div
-        className="flex"
+        className="flex h-screen"
     >
         <Aside />
         <Outlet />
