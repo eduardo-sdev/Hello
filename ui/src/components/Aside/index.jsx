@@ -4,22 +4,29 @@ import { Link } from "react-router-dom"
 import {
     AiOutlineSetting,
     AiOutlineHome,
-    AiOutlineAppstore
+    AiOutlineAppstore,
+    AiOutlineMail,
+    AiOutlineLink
 } from "react-icons/ai"
-import { CgProfile } from "react-icons/cg"
-import { BiCommentDetail } from "react-icons/bi"
+import {
+    BiCommentDetail,
+} from "react-icons/bi"
 import {
     BsInfoSquare,
-    BsMortarboard
+    BsMortarboard,
 } from "react-icons/bs"
 import {
     IoMdNotificationsOutline,
     IoIosArrowBack,
     IoIosArrowForward,
+    IoIosLogIn
 } from "react-icons/io"
 
+import { useAuthContext } from '../../context/AuthContext'
 
-export function Aside() {
+export function Aside({ id_user, section }) {
+    const { user } = useAuthContext()
+
     const listMenu = [
         {
             title: "Home",
@@ -41,13 +48,23 @@ export function Aside() {
             icon: <BsInfoSquare />,
             path: "sobre"
         },
+        {
+            title: "Links",
+            icon: <AiOutlineLink />,
+            path: "links"
+        },
+        {
+            title: "Contato",
+            icon: <AiOutlineMail />,
+            path: "contato"
+        },
     ]
 
-    const listMenuProfile = [
+    const listMenuUser = [
         {
             title: "Mensagens",
             icon: <BiCommentDetail />,
-            path: "Mensagens"
+            path: "mensagens"
         },
         {
             title: "Notificação",
@@ -58,11 +75,6 @@ export function Aside() {
             title: "Configuração",
             icon: <AiOutlineSetting />,
             path: "configuracao"
-        },
-        {
-            title: "Perfil",
-            icon: <CgProfile />,
-            path: "profile"
         },
     ]
 
@@ -76,19 +88,22 @@ export function Aside() {
                 className="logo_wrapper p-2"
             >
                 <div className="logo flex items-center gap-4">
-                    <div className={`w-9 absolute left-6`}>
+                    <Link
+                        to="/landingpage"
+                        className={`w-9 absolute left-6`}
+                    >
                         <img
                             src="/logo.png"
                             className=""
                             alt=""
                         />
-                    </div>
+                    </Link>
                     <span
                         className={`text-[24px] font-bold
                             ${sidebarActive ? "opacity-0 hidden" : "opacity-100 ml-10"}`
                         }
                     >
-                        Meu Portifolio
+                        user name
                     </span>
                 </div>
 
@@ -100,7 +115,6 @@ export function Aside() {
                         ? <IoIosArrowForward />
                         : <IoIosArrowBack />
                     }
-
                 </div>
             </div>
         </div>
@@ -116,12 +130,19 @@ export function Aside() {
                 >
                     <Link
                         className={`nav_link-wrapper flex p-3 items-center ease-in-out gap-3 duration-300`}
-                        to={item.path}
+                        to={`/portfolio/${id_user}/${item.path}`}
                     >
-                        <span className="group-hover:text-[#2d68ff] text-2xl">{item.icon}</span>
                         <span
-                            className={`links_name text-xl text-[#324054] ease-in-out duration-300 group-hover:text-[#2d68ff] 
-                                ${sidebarActive ? "opacity-0" : "opacity-100"}`
+                            className={`group-hover:text-[#2d68ff] text-2xl
+                                ${section === item.path ? "text-[#2d68ff]" : ""}
+                            `}
+                        >
+                            {item.icon}
+                        </span>
+                        <span
+                            className={`links_name text-xl ease-in-out duration-300 group-hover:text-[#2d68ff] 
+                                ${sidebarActive ? "opacity-0" : "opacity-100"}
+                                ${section === item.path ? "text-[#2d68ff]" : "text-[#324054]"}`
                             }
                         >{item.title}</span>
                     </Link>
@@ -138,37 +159,82 @@ export function Aside() {
                 </li>
                 )}
             </ul>
-            <ul
-                className="nav_list flex flex-col gap-2 w-full"
-            >
-                {listMenuProfile.map(item => <li
+            <div>
+                {user ? <ul
+                    className="nav_list flex flex-col gap-2 w-full"
+                >
+                    {listMenuUser.map((item, index) => <li
+                        className="relative group w-full ease-in-out duration-300 hover:bg-[#eff6ff] hover:rounded-md"
+                        key={item.path + index}
+                    >
+                        <Link
+                            className="nav_link-wrapper flex p-3 items-center ease-in-out gap-3 duration-300"
+                            to={`/perfil/${item.path}`}
+                        >
+                            <span
+                                className={`group-hover:text-[#2d68ff] text-2xl
+                                ${section === item.path ? "text-[#2d68ff]" : ""}
+                            `}
+                            >
+                                {item.icon}
+                            </span>
+                            <span
+                                className={`links_name text-xl  ease-in-out duration-300 group-hover:text-[#2d68ff] 
+                                ${sidebarActive ? "opacity-0" : "opacity-100"}
+                                ${section === item.path ? "text-[#2d68ff]" : "text-[#324054]"}`
+                                }
+                            >{item.title}</span>
+                        </Link>
+                        {sidebarActive
+                            ? <span
+                                className={`tooltip z-1 bg-[#324054] shadow py-1 px-3 rounded text-[12px] text-white ease-in-out duration-300 opacity-0 absolute top-5 group-hover:top-3 group-hover:opacity-100 left-14`}
+                            >
+                                {item.title}
+                            </span>
+                            : null
+                        }
+                    </li>
+                    )}
+                </ul>
+                    : null}
+                <div
                     className="relative group w-full ease-in-out duration-300 hover:bg-[#eff6ff] hover:rounded-md"
-                    key={item.path}
                 >
                     <Link
                         className="nav_link-wrapper flex p-3 items-center ease-in-out gap-3 duration-300"
-                        to={item.path}
+                        to={user ? `/perfil/usuario` : "/register-login"}
                     >
-                        <span className="group-hover:text-[#2d68ff] text-2xl">{item.icon}</span>
+                        <span className="group-hover:text-[#2d68ff] text-2xl">
+                            {user
+                                ? <img
+                                    className="w-7 h-7 rounded-full text-[7px] flex"
+                                    src={user.user_metadata.avatar_url}
+                                    onError={(e) => {
+                                        e.target.src = "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                                    }}
+                                />
+                                : <IoIosLogIn />
+                            }
+                        </span>
                         <span
                             className={`links_name text-xl text-[#324054] ease-in-out duration-300 group-hover:text-[#2d68ff] 
                                 ${sidebarActive ? "opacity-0" : "opacity-100"}`
                             }
-                        >{item.title}</span>
+                        >
+                            {user ? user.user_metadata.full_name : "Entrar/Registar"}
+                        </span>
                     </Link>
+
                     {sidebarActive
-                        ?
-                        <span
+                        ? <span
                             className={`tooltip z-1 bg-[#324054] shadow py-1 px-3 rounded text-[12px] text-white ease-in-out duration-300 opacity-0 absolute top-5 group-hover:top-3 group-hover:opacity-100 left-14`}
                         >
-                            {item.title}
+                            {user ? user.user_metadata.full_name : "Entrar/Registar"}
                         </span>
-                        :
-                        null
+                        : null
                     }
-                </li>
-                )}
-            </ul>
+                </div>
+            </div>
         </div>
     </aside>
 }

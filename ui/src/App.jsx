@@ -1,12 +1,13 @@
+import { useEffect } from "react"
 import { Outlet } from "react-router-dom"
-import { Aside } from "./components/Aside"
+
+import { AuthProvider } from "./context/AuthContext"
 
 export function App() {
-    return <div
-        className="flex h-screen"
-    >
-        <Aside />
+    useEffect(() => { }, [])
+
+    return <AuthProvider>
         <Outlet />
-    </div>
+    </AuthProvider>
 }
 
